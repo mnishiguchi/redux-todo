@@ -1,6 +1,7 @@
-import { createStore } from 'redux';
+import { combineReducers } from 'redux';
 
 // A simple example of reducer composition
+// - We let different reducers handle different parts of the state tree.
 
 /**
  * @param state  - old state of todo
@@ -19,7 +20,7 @@ const todo = (state, action) => {
 
     case 'TOGGLE_TODO':
       // Toggle the completed boolean field only for the specified todo item.
-      if (todo.id != action.id) {
+      if (todo.id !== action.id) {
         return todo;
       }
 
@@ -71,16 +72,20 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
 };
 
 /**
- * A combined reducer.
+ * Combines reducers into a single reducer.
  * @param state  - old state of todoApp
  * @param action - action that was dispatched
  * @return new state of todoApp
  */
-const todoApp = (state = {}, action) => {
-  return {
-    todos           : todos(state.todos, action),
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-  }
-};
+ const todoApp = combineReducers({
+   todos,
+   visibilityFilter
+ });
+// const todoApp = (state = {}, action) => {
+//   return {
+//     todos           : todos(state.todos, action),
+//     visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+//   }
+// };
 
-const store = createStore(todoApp);
+export default todoApp;
