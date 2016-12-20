@@ -6,17 +6,24 @@ import store   from './store';
 let nextTodoId = 0;
 
 class TodoApp extends React.Component {
-  
+
   render() {
     return (
       <div className="TodoApp">
+
+        <input
+          ref={node => this._todoTextInput = node}
+          className="form-control"
+        />
         <button
+          className="btn btn-primary"
           onClick={() => {
             store.dispatch({
               type: 'ADD_TODO',
-              text: 'test',
+              text: this._todoTextInput.value,
               id  : nextTodoId++,
             });
+            this._todoTextInput.value = '';
           }}
         >
           Add todo

@@ -8,13 +8,16 @@ import TodoApp from './TodoApp/TodoApp';
 
 // Styles
 import logo  from './logo.svg';
+require('bootstrap/dist/css/bootstrap.css')
 require('./App.css');
 
 class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div
+        className="App"
+      >
         <div className="App-header">
           <img
             src={logo}
@@ -24,9 +27,13 @@ class App extends React.Component {
           <h2>Redux todo app</h2>
         </div>
 
-        <TodoApp
-          todos={store.getState().todos}
-        />
+        <main
+          className="container"
+        >
+          <TodoApp
+            todos={store.getState().todos}
+            />
+        </main>
 
       </div>
     );
