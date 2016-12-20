@@ -15,9 +15,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div
-        className="App"
-      >
+      <div className="App">
         <div className="App-header">
           <img
             src={logo}
@@ -27,14 +25,11 @@ class App extends React.Component {
           <h2>Redux todo app</h2>
         </div>
 
-        <main
-          className="container"
-        >
+        <main className="container">
           <TodoApp
-            todos={store.getState().todos}
+            {...store.getState()}
             />
         </main>
-
       </div>
     );
   }

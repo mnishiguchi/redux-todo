@@ -5,11 +5,28 @@ import v4      from 'node-uuid';
 import store   from './store';
 
 // Components
-import Todo from './Todo';
+import Todo       from './Todo';
+import FilterLink from './FilterLink';
+
+const getVisibleTodos = (todos, visibilityFilter) => {
+  switch (visibilityFilter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed);
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed);
+    default:
+      return todos;
+  }
+};
 
 class TodoApp extends React.Component {
 
   render() {
+    const { todos, visibilityFilter } = this.props;
+    const visibleTodos = getVisibleTodos(todos, visibilityFilter);
+
     return (
       <div className="TodoApp">
         <div className="card card-block">
@@ -35,8 +52,36 @@ class TodoApp extends React.Component {
             </div>
           </div>
 
+          <p>
+            Show:
+            {' '}
+            <FilterLink
+              filter='SHOW_ALL'
+              handleClickFilter={this._handleClickFilter}
+              currentFilter={visibilityFilter}
+            >
+              All
+            </FilterLink>
+            {'  '}
+            <FilterLink
+              filter='SHOW_ACTIVE'
+              handleClickFilter={this._handleClickFilter}
+              currentFilter={visibilityFilter}
+            >
+              Active
+            </FilterLink>
+            {'  '}
+            <FilterLink
+              filter='SHOW_COMPLETED'
+              handleClickFilter={this._handleClickFilter}
+              currentFilter={visibilityFilter}
+            >
+              Completed
+            </FilterLink>
+          </p>
+
           <div className="card-columns mt-2">
-            {this.props.todos.map(todo =>
+            {visibleTodos.map(todo =>
               <Todo
                 todo={todo}
                 key={todo.id}
@@ -51,7 +96,7 @@ class TodoApp extends React.Component {
 
   _handleClickAddTodoButton = () => {
     if (!this._todoTextInput.value) { return; }
-    
+
     store.dispatch({
       type: 'ADD_TODO',
       text: this._todoTextInput.value,
@@ -64,6 +109,13 @@ class TodoApp extends React.Component {
     store.dispatch({
       type: 'TOGGLE_TODO',
       id  : id,
+    });
+  }
+
+  _handleClickFilter = (filter) => {
+    store.dispatch({
+      type   : 'SET_VISIBILITY_FILTER',
+      filter : filter,
     });
   }
 }
