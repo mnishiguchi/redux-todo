@@ -1,33 +1,35 @@
 import React      from 'react';
 import classNames from 'classnames';
 
-class Todo extends React.Component {
+const Todo = (props) => {
+  const {
+    id,
+    text,
+    completed,
+    handleClickTodo
+  } = props;
 
-  render() {
-    const { todo, handleClickTodoText } = this.props;
+  const todoClass = classNames({
+    "Todo card"                        : true,
+    "card-outline-primary"             : !completed,
+    "card-outline-secondary text-muted": completed,
+  });
 
-    const todoClass = classNames({
-      "Todo card"                                  : true,
-      "Todo card card-outline-primary"             : !todo.completed,
-      "Todo card card-outline-secondary text-muted": todo.completed,
-    });
-
-    return (
-      <div
-        className={todoClass}
-        onClick={(e) => handleClickTodoText(this.props.todo.id)}
-      >
-        <div className="card-block">
-          <p
-            className="card-text"
-            style={{textDecoration: (todo.completed) ? 'line-through' : 'none'}}
-          >
-            {todo.text}
-          </p>
-        </div>
+  return (
+    <div
+      className={todoClass}
+      onClick={(e) => handleClickTodo(id)}
+    >
+      <div className="card-block">
+        <p
+          className="card-text"
+          style={{textDecoration: (completed) ? 'line-through' : 'none'}}
+        >
+          {text}
+        </p>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Todo;

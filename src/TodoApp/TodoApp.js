@@ -7,6 +7,8 @@ import store   from './store';
 // Components
 import Todo       from './Todo';
 import FilterLink from './FilterLink';
+import TodoList   from './TodoList';
+import VisibilityFilter   from './VisibilityFilter';
 
 const getVisibleTodos = (todos, visibilityFilter) => {
   switch (visibilityFilter) {
@@ -28,7 +30,10 @@ class TodoApp extends React.Component {
     const visibleTodos = getVisibleTodos(todos, visibilityFilter);
 
     return (
-      <div className="TodoApp">
+      <div
+        className="TodoApp"
+        onKeyPress={(e) => this._handleKeyPress(e)}
+      >
         <div className="card card-block">
           <div>
             <div className="input-group">
@@ -43,7 +48,7 @@ class TodoApp extends React.Component {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={(e) => this._handleClickAddTodoButton()}
+                  onClick={(e) => this._handleSubmitAddTodo()}
                 >
                   Add todo
                 </button>
@@ -52,49 +57,27 @@ class TodoApp extends React.Component {
             </div>
           </div>
 
-          <p>
-            Show:
-            {' '}
-            <FilterLink
-              filter='SHOW_ALL'
-              handleClickFilter={this._handleClickFilter}
-              currentFilter={visibilityFilter}
-            >
-              All
-            </FilterLink>
-            {'  '}
-            <FilterLink
-              filter='SHOW_ACTIVE'
-              handleClickFilter={this._handleClickFilter}
-              currentFilter={visibilityFilter}
-            >
-              Active
-            </FilterLink>
-            {'  '}
-            <FilterLink
-              filter='SHOW_COMPLETED'
-              handleClickFilter={this._handleClickFilter}
-              currentFilter={visibilityFilter}
-            >
-              Completed
-            </FilterLink>
-          </p>
+          <VisibilityFilter
+            currentFilter={visibilityFilter}
+            handleClickFilter={this._handleClickFilter}
+          />
 
-          <div className="card-columns mt-2">
-            {visibleTodos.map(todo =>
-              <Todo
-                todo={todo}
-                key={todo.id}
-                handleClickTodoText={(e) => this._handleClickTodoText(e)}
-              />
-            )}
-          </div>
+          <TodoList
+            todos={visibleTodos}
+            handleClickTodo={this._handleClickTodo}
+          />
         </div>
       </div>
     );
   }
 
-  _handleClickAddTodoButton = () => {
+  _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this._handleSubmitAddTodo();
+    }
+  }
+
+  _handleSubmitAddTodo = () => {
     if (!this._todoTextInput.value) { return; }
 
     store.dispatch({
@@ -105,7 +88,7 @@ class TodoApp extends React.Component {
     this._todoTextInput.value = '';
   }
 
-  _handleClickTodoText = (id) => {
+  _handleClickTodo = (id) => {
     store.dispatch({
       type: 'TOGGLE_TODO',
       id  : id,

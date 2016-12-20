@@ -28,7 +28,7 @@ class App extends React.Component {
         <main className="container">
           <TodoApp
             {...store.getState()}
-            />
+          />
         </main>
       </div>
     );

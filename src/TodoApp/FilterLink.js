@@ -1,31 +1,30 @@
 import React      from 'react';
-// import classNames from 'classnames';
 
-class FilterLink extends React.Component {
+const FilterLink = (props) => {
+  const {
+    filter,             // Name of this filter
+    currentFilter,      // Name of currently active filter
+    children,           // To be a lable of thie link
+    handleClickFilter,  // Handles a click on this component
+  } = props
 
-  render() {
-    const { filter, children, handleClickFilter, currentFilter } = this.props;
+  // Active link
+  if (filter === currentFilter) {
+    return <b>{children}</b>;
+  }
 
-    // Active link
-    if (filter === currentFilter) {
-      return (
-        <span>{children}{/* Label */}</span>
-      );
-    }
-
-    // The other links
-    return (
-      <a
-        href="#"
-        onClick={e => {
-          e.preventDefault();
-          handleClickFilter(filter)
-        }}
-      >
-        {children}{/* Label */}
-      </a>
-    )
-  };
-}
+  // The other links
+  return (
+    <a
+      href="#"
+      onClick={e => {
+        e.preventDefault();
+        handleClickFilter(filter)
+      }}
+    >
+      {children}
+    </a>
+  )
+};
 
 export default FilterLink;
