@@ -1,12 +1,19 @@
-import React   from 'react';
+import React      from 'react';
+import classNames from 'classnames';
 
 class Todo extends React.Component {
 
   render() {
     const { todo, handleClickTodoText } = this.props;
 
+    const todoClass = classNames({
+      "Todo card"                                  : true,
+      "Todo card card-outline-primary"             : !todo.completed,
+      "Todo card card-outline-secondary text-muted": todo.completed,
+    });
+
     return (
-      <div className="card card-outline-primary">
+      <div className={todoClass}>
         <div className="card-block">
           <p
             className="card-text"
