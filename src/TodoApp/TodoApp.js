@@ -1,45 +1,68 @@
 import React   from 'react';
+import v4      from 'node-uuid';
 
 // We import this so that we can use dispatch function.
 import store   from './store';
 
-let nextTodoId = 0;
+// Components
+import Todo from './Todo';
 
 class TodoApp extends React.Component {
 
   render() {
     return (
       <div className="TodoApp">
+        <div className="card card-block">
+          <div>
+            <div className="input-group">
 
-        <input
-          ref={node => this._todoTextInput = node}
-          className="form-control"
-        />
-        <button
-          className="btn btn-primary"
-          onClick={(e) => this._handleClick(e)}
-        >
-          Add todo
-        </button>
+              <input
+                ref={node => this._todoTextInput = node}
+                className="form-control"
+                placeholder="Add todo..."
+              />
 
-        <ul>
-          {this.props.todos.map(todo =>
-            <li key={todo.id}>
-              {todo.text}
-            </li>
-          )}
-        </ul>
+              <span className="input-group-btn">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={(e) => this._handleClickAddTodoButton()}
+                >
+                  Add todo
+                </button>
+              </span>
+
+            </div>
+          </div>
+
+          <div className="card-columns mt-2">
+            {this.props.todos.map(todo =>
+              <Todo
+                todo={todo}
+                key={todo.id}
+                handleClickTodoText={(e) => this._handleClickTodoText(e)}
+              />
+            )}
+          </div>
+        </div>
       </div>
     );
   }
 
-  _handleClick = (e) => {
+  _handleClickAddTodoButton = () => {
     store.dispatch({
       type: 'ADD_TODO',
       text: this._todoTextInput.value,
-      id  : nextTodoId++,
+      id  : v4(),
     });
     this._todoTextInput.value = '';
+  }
+
+  _handleClickTodoText = (id) => {
+    store.dispatch({
+      type: 'TOGGLE_TODO',
+      id  : id,
+    });
   }
 }
 

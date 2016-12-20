@@ -8,7 +8,7 @@ import { combineReducers } from 'redux';
  * @param action - action that was dispatched
  * @return new state of todo
  */
-const todo = (state, action) => {
+const todo = (old, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       // Simply create a object with specified id and text.
@@ -20,17 +20,17 @@ const todo = (state, action) => {
 
     case 'TOGGLE_TODO':
       // Toggle the completed boolean field only for the specified todo item.
-      if (todo.id !== action.id) {
-        return todo;
+      if (old.id !== action.id) {
+        return old;
       }
 
       return {
-        ...todo,
-        completed: !todo.completed
+        ...old,
+        completed: !old.completed
       }
 
     default:
-      return state;
+      return old;
   }
 }
 
@@ -81,6 +81,7 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
    todos,
    visibilityFilter
  });
+// // Equivalent to below:
 // const todoApp = (state = {}, action) => {
 //   return {
 //     todos           : todos(state.todos, action),
