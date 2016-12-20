@@ -17,14 +17,7 @@ class TodoApp extends React.Component {
         />
         <button
           className="btn btn-primary"
-          onClick={() => {
-            store.dispatch({
-              type: 'ADD_TODO',
-              text: this._todoTextInput.value,
-              id  : nextTodoId++,
-            });
-            this._todoTextInput.value = '';
-          }}
+          onClick={(e) => this._handleClick(e)}
         >
           Add todo
         </button>
@@ -38,6 +31,15 @@ class TodoApp extends React.Component {
         </ul>
       </div>
     );
+  }
+
+  _handleClick = (e) => {
+    store.dispatch({
+      type: 'ADD_TODO',
+      text: this._todoTextInput.value,
+      id  : nextTodoId++,
+    });
+    this._todoTextInput.value = '';
   }
 }
 
