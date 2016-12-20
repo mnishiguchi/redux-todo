@@ -4,11 +4,11 @@ import { combineReducers } from 'redux';
 // - We let different reducers handle different parts of the state tree.
 
 /**
- * @param state  - old state of todo
+ * @param state  - prev state of todo
  * @param action - action that was dispatched
  * @return new state of todo
  */
-const todo = (old, action) => {
+const todo = (prev, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       // Simply create a object with specified id and text.
@@ -20,22 +20,22 @@ const todo = (old, action) => {
 
     case 'TOGGLE_TODO':
       // Toggle the completed boolean field only for the specified todo item.
-      if (old.id !== action.id) {
-        return old;
+      if (prev.id !== action.id) {
+        return prev;
       }
 
       return {
-        ...old,
-        completed: !old.completed
+        ...prev,
+        completed: !prev.completed
       }
 
     default:
-      return old;
+      return prev;
   }
 }
 
 /**
- * @param state  - old state of todos
+ * @param state  - prev state of todos
  * @param action - action that was dispatched
  * @return new state of todos
  */
@@ -49,7 +49,7 @@ const todos = (state = [], action) => {
       ];
 
     case 'TOGGLE_TODO':
-      return state.map(old => todo(old, action));
+      return state.map(prev => todo(prev, action));
 
     default:
       return state;
@@ -57,7 +57,7 @@ const todos = (state = [], action) => {
 };
 
 /**
- * @param state  - old state of visibilityFilter
+ * @param state  - prev state of visibilityFilter
  * @param action - action that was dispatched
  * @return new state of visibilityFilter
  */
@@ -73,7 +73,7 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
 
 /**
  * Combines reducers into a single reducer.
- * @param state  - old state of todoApp
+ * @param state  - prev state of todoApp
  * @param action - action that was dispatched
  * @return new state of todoApp
  */

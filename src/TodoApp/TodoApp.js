@@ -50,6 +50,8 @@ class TodoApp extends React.Component {
   }
 
   _handleClickAddTodoButton = () => {
+    if (!this._todoTextInput.value) { return; }
+    
     store.dispatch({
       type: 'ADD_TODO',
       text: this._todoTextInput.value,

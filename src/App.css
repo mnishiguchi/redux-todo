@@ -18,6 +18,11 @@
   font-size: large;
 }
 
+.TodoApp {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .card {
   border-radius: 0;
 }

@@ -13,12 +13,14 @@ class Todo extends React.Component {
     });
 
     return (
-      <div className={todoClass}>
+      <div
+        className={todoClass}
+        onClick={(e) => handleClickTodoText(this.props.todo.id)}
+      >
         <div className="card-block">
           <p
             className="card-text"
             style={{textDecoration: (todo.completed) ? 'line-through' : 'none'}}
-            onClick={(e) => handleClickTodoText(this.props.todo.id)}
           >
             {todo.text}
           </p>
