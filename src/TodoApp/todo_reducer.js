@@ -1,4 +1,6 @@
-// Reducer composition.
+import { createStore } from 'redux';
+
+// A simple example of reducer composition
 
 /**
  * @param state  - old state of todo
@@ -25,12 +27,11 @@ const todo = (state, action) => {
         ...todo,
         completed: !todo.completed
       }
-      
+
     default:
       return state;
   }
 }
-
 
 /**
  * @param state  - old state of todos
@@ -53,3 +54,33 @@ const todos = (state = [], action) => {
       return state;
   }
 };
+
+/**
+ * @param state  - old state of visibilityFilter
+ * @param action - action that was dispatched
+ * @return new state of visibilityFilter
+ */
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+
+    default:
+      return state;
+  }
+};
+
+/**
+ * A combined reducer.
+ * @param state  - old state of todoApp
+ * @param action - action that was dispatched
+ * @return new state of todoApp
+ */
+const todoApp = (state = {}, action) => {
+  return {
+    todos           : todos(state.todos, action),
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+  }
+};
+
+const store = createStore(todoApp);
