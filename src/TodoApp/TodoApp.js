@@ -1,15 +1,12 @@
 import React   from 'react'
-import v4      from 'node-uuid'
 
 // We import this so that we can use dispatch function.
 import store   from './store'
 
 // Components
-import Todo       from './Todo'
-import FilterLink from './FilterLink'
 import AddTodo    from './AddTodo'
 import TodoList   from './TodoList'
-import VisibilityFilter   from './VisibilityFilter'
+import FilterBox  from './FilterBox'
 
 const getVisibleTodos = (todos, visibilityFilter) => {
   switch (visibilityFilter) {
@@ -33,14 +30,9 @@ class TodoApp extends React.Component {
     return (
       <div className="TodoApp">
         <div className="card card-block">
-          <AddTodo
-            handleSubmitAddTodo={this._handleSubmitAddTodo}
-          />
+          <AddTodo/>
 
-          <VisibilityFilter
-            currentFilter={visibilityFilter}
-            handleClickFilter={this._handleClickFilter}
-          />
+          <FilterBox />
 
           <TodoList
             todos={visibleTodos}
@@ -51,25 +43,10 @@ class TodoApp extends React.Component {
     )
   }
 
-  _handleSubmitAddTodo = (text) => {
-    store.dispatch({
-      type: 'ADD_TODO',
-      text: text,
-      id  : v4(),
-    })
-  }
-
   _handleClickTodo = (id) => {
     store.dispatch({
       type: 'TOGGLE_TODO',
       id  : id,
-    })
-  }
-
-  _handleClickFilter = (filter) => {
-    store.dispatch({
-      type   : 'SET_VISIBILITY_FILTER',
-      filter : filter,
     })
   }
 }

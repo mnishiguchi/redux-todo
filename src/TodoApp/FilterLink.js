@@ -1,30 +1,29 @@
-import React      from 'react';
+import React      from 'react'
+import Link       from './Link'
 
-const FilterLink = (props) => {
-  const {
-    filter,             // Name of this filter
-    currentFilter,      // Name of currently active filter
-    children,           // To be a lable of thie link
-    handleClickFilter,  // Handles a click on this component
-  } = props
+// We import this so that we can use dispatch function.
+import store   from './store'
 
-  // Active link
-  if (filter === currentFilter) {
-    return <b>{children}</b>;
+// Delegates the rendering to the Link component.
+class FilterLink extends React.Component {
+  render() {
+    const props = this.props
+    const state = store.getState()
+
+    return (
+      <Link
+        active={props.filter === state.visibilityFilter}
+        handleClickFilter={() =>
+          store.dispatch({
+            type   : 'SET_VISIBILITY_FILTER',
+            filter : props.filter,
+          })
+        }
+      >
+        {props.children}
+      </ Link>
+    )
   }
+}
 
-  // The other links
-  return (
-    <a
-      href="#"
-      onClick={e => {
-        e.preventDefault();
-        handleClickFilter(filter)
-      }}
-    >
-      {children}
-    </a>
-  )
-};
-
-export default FilterLink;
+export default FilterLink
