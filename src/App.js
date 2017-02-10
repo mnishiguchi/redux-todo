@@ -1,38 +1,34 @@
-import React from 'react';
+import React        from 'react'
+import { Provider } from 'react-redux'
 
 // Redux store
-import store   from './TodoApp/store';
+import store   from './TodoApp/store'
 
 // Components
-import TodoApp from './TodoApp/TodoApp';
+import AppHeader from './AppHeader'
+import TodoApp   from './TodoApp/TodoApp'
 
 // Styles
-import logo  from './logo.svg';
 require('bootstrap/dist/css/bootstrap.css')
-require('./App.css');
+require('./App.css')
 
 class App extends React.Component {
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img
-            src={logo}
-            className="App-logo"
-            alt="logo"
-          />
-          <h2>Redux todo app</h2>
-        </div>
+        <AppHeader />
 
         <main className="container">
-          <TodoApp
-            {...store.getState()}
-          />
+
+          <Provider store={store}>
+            <TodoApp />
+          </Provider>
+          
         </main>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

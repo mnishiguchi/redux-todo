@@ -1,8 +1,6 @@
-import React   from 'react'
-import v4      from 'node-uuid'
-
-// We import this so that we can use dispatch function.
-import store   from './store'
+import React       from 'react'
+import { connect } from 'react-redux'
+import v4          from 'node-uuid'
 
 const AddTodo = (props) => {
   let todoTextInput
@@ -31,8 +29,11 @@ const AddTodo = (props) => {
   )
 
   function handleSubmitAddTodo(text) {
+    const { dispatch } = props
+
     if (!todoTextInput.value) { return } // Ignore an empty input.
-    store.dispatch({
+
+    dispatch({
       type: 'ADD_TODO',
       text: text,
       id  : v4(),
@@ -50,4 +51,4 @@ const AddTodo = (props) => {
   }
 }
 
-export default AddTodo
+export default connect()(AddTodo)

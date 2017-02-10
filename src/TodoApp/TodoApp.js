@@ -1,7 +1,5 @@
-import React   from 'react'
-
-// We import this so that we can use dispatch function.
-import store   from './store'
+import React       from 'react'
+import { connect } from 'react-redux'
 
 // Components
 import AddTodo    from './AddTodo'
@@ -44,11 +42,16 @@ class TodoApp extends React.Component {
   }
 
   _handleClickTodo = (id) => {
-    store.dispatch({
+    const { dispatch } = this.props
+    dispatch({
       type: 'TOGGLE_TODO',
       id  : id,
     })
   }
 }
 
-export default TodoApp
+const mapStateToProps = (state) => {
+  return state
+}
+
+export default connect( mapStateToProps )( TodoApp )
