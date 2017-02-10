@@ -10,6 +10,16 @@ const AppHeader = () => {
         alt="logo"
       />
       <h2>Redux todo app</h2>
+      <button
+        classname="btn btn-secondary"
+        onClick={
+        e => {
+          e.preventDefault()
+          localStorage.clear()
+        }
+      }>
+        Clear local storage
+      </button>
     </div>
   )
 }
